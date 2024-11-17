@@ -5,7 +5,7 @@ from telegram import Bot, Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 # Токен бота
-TOKEN = os.environ['TOKEN']
+TOKEN = os.environ['7855092388:AAHK7zy2jnXR110StjuuTmkoEaNobiIme3s']
 
 # Глобальные переменные
 enabled = False  # Включен ли бот для отправки сообщений
