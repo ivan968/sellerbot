@@ -87,7 +87,7 @@ def send_messages():
                     bot.send_message(chat_id, message)
                 except Exception as e:
                     print(f"Ошибка при отправке в чат {chat_id}: {e}")
-        time.sleep(15)
+        time.sleep(2)
 
 
 if __name__ == "__main__":
