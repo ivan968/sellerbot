@@ -36,13 +36,24 @@ def stop(update: Update, context: CallbackContext):
 
 
 def add_chat(update: Update, context: CallbackContext):
-    """Добавляет текущий чат в список."""
-    chat_id = update.effective_chat.id
-    if chat_id not in chats:
-        chats.append(chat_id)
-        update.message.reply_text(f"Чат {chat_id} добавлен в список рассылки.")
-    else:
-        update.message.reply_text("Чат уже в списке.")
+    # Новая версия функции
+    if context.args:  # Если аргументы переданы
+        try:
+            chat_id = int(context.args[0])  # Преобразуем первый аргумент в число
+            if chat_id not in chats:
+                chats.append(chat_id)
+                update.message.reply_text(f"Чат {chat_id} добавлен для отправки сообщений.")
+            else:
+                update.message.reply_text("Этот чат уже добавлен.")
+        except ValueError:
+            update.message.reply_text("Ошибка: ID чата должен быть числом.")
+    else:  # Если аргументы не переданы, используем текущий чат
+        chat_id = update.effective_chat.id
+        if chat_id not in chats:
+            chats.append(chat_id)
+            update.message.reply_text(f"Текущий чат {chat_id} добавлен для отправки сообщений.")
+        else:
+            update.message.reply_text("Этот чат уже добавлен.")
 
 
 def remove_chat(update: Update, context: CallbackContext):
@@ -90,7 +101,7 @@ if __name__ == "__main__":
     # Команды
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("stop", stop))
-    dispatcher.add_handler(CommandHandler("add_chat", add_chat))
+    dispatcher.add_handler(CommandHandler("add_chat", add_chat, pass_args=True))
     dispatcher.add_handler(CommandHandler("remove_chat", remove_chat))
     dispatcher.add_handler(CommandHandler("list_chats", list_chats))
 
